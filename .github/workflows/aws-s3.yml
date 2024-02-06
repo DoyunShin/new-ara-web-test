@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js 14.9
         uses: actions/setup-node@v3
         with:
-          node-version: 14.9
+          node-version: 14.21
       - name: Env setup
         run: |
           echo VUE_APP_API_MODE=staging >> .env
@@ -50,6 +50,6 @@ jobs:
         env:
           REF: ${{ github.ref_name }}
       - name: Upload to S3 Backup Bucket
-        run: aws s3 cp $REF.tar.gz s3://newara-front-dump/web-backup/$REF.tar.gz
+        run: aws s3 cp $REF.tar.gz s3://sparcs-newara-backup/web-backup/$REF.tar.gz
         env:
           REF: ${{ github.ref_name }}
