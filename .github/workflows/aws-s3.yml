@@ -18,7 +18,7 @@ jobs:
           node-version: 14.9
       - name: Env setup
         run: |
-          echo VUE_APP_API_MODE=staging >> .env"
+          echo VUE_APP_API_MODE=staging >> .env
       #    echo VUE_APP_FIREBASE_CONFIG=$FIREBASE_CONFIG_PROD >> .env
       #    echo VUE_FIREBASE_VAPID_KEY=$FIREBASE_VAPID_KEY_PROD >> .env
       #    echo VUE_CHANNEL_PLUGIN_KEY=$CHANNEL_PLUGIN_KEY >> .env
