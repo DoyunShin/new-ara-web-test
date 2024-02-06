@@ -50,4 +50,4 @@ jobs:
         env:
           REF: ${{ github.ref_name }}
       - name: Upload to S3 Backup Bucket
-        run: aws s3 cp $REF.tar.gz s3://newara-front-backup/web-backup/$REF.tar.gz
+        run: aws s3 cp $REF.tar.gz s3://newara-front-dump/web-backup/$REF.tar.gz
