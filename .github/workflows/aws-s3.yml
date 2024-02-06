@@ -45,13 +45,9 @@ jobs:
       - name: collect dist to make tarball
         run: |
           cd dist
-          tar cvfz ../newara-front-$REF.tar.gz .
+          tar cvfz ../$REF.tar.gz .
           cd ..
         env:
           REF: ${{ github.ref_name }}
-      - name: Deploy to Github Release
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Release ${{ github.ref }}
-          bodyFile: ./newara-front-${{ github.ref_name }}.tar.gz
+      - name: Upload to S3 Backup Bucket
+        run: aws s3 cp $REF.tar.gz s3://newara-front-backup/web-backup/$REF.tar.gz
