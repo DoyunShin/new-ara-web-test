@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -18,14 +18,14 @@ jobs:
           node-version: 14.9
       - name: Env setup
         run: |
-          echo VUE_APP_API_MODE=production >> .env"
-          echo VUE_APP_FIREBASE_CONFIG=$FIREBASE_CONFIG_PROD >> .env
-          echo VUE_FIREBASE_VAPID_KEY=$FIREBASE_VAPID_KEY_PROD >> .env
-          echo VUE_CHANNEL_PLUGIN_KEY=$CHANNEL_PLUGIN_KEY >> .env
-        env:
-          FIREBASE_CONFIG_PROD: ${{ secrets.FIREBASE_CONFIG_PROD }}
-          FIREBASE_VAPID_KEY_PROD: ${{ secrets.FIREBASE_VAPID_KEY_PROD }}
-          CHANNEL_PLUGIN_KEY: ${{ secrets.CHANNEL_PLUGIN_KEY }}
+          echo VUE_APP_API_MODE=staging >> .env"
+      #    echo VUE_APP_FIREBASE_CONFIG=$FIREBASE_CONFIG_PROD >> .env
+      #    echo VUE_FIREBASE_VAPID_KEY=$FIREBASE_VAPID_KEY_PROD >> .env
+      #    echo VUE_CHANNEL_PLUGIN_KEY=$CHANNEL_PLUGIN_KEY >> .env
+      #  env:
+      #    FIREBASE_CONFIG_PROD: ${{ secrets.FIREBASE_CONFIG_PROD }}
+      #    FIREBASE_VAPID_KEY_PROD: ${{ secrets.FIREBASE_VAPID_KEY_PROD }}
+      #    CHANNEL_PLUGIN_KEY: ${{ secrets.CHANNEL_PLUGIN_KEY }}
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -41,8 +41,8 @@ jobs:
         run: aws s3 sync dist/ s3://newara-front --delete
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
-      
-      - name: collect dist
+
+      - name: collect dist to make tarball
         run: |
           cd dist
           tar cvfz ../newara-front-$REF.tar.gz .
